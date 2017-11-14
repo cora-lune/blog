@@ -1,0 +1,22 @@
+{% extends 'BlogBundle:Default:layout.html.twig' %}
+
+{% block title %}CONTACT{% endblock%}
+
+{% block body %}
+    <header>
+        <h1>CONTACT</h1>
+    </header>
+    <article>
+        <p>Gardons contact ! Envoyez-moi un petit message en remplissant ce formulaire. </p>
+    </article>
+    {{ form_start(form, {'attr': {'class': 'blogger'}}) }}
+        {{ form_errors(form) }}
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.subject) }}
+        {{ form_row(form.body) }}
+        {{ form_row(form.submit) }}
+{{ form_end(form) }}
+    </form>
+{% endblock %}
