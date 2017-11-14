@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BlogBundle\Entity\Enquiry;
 use BlogBundle\Form\EnquiryType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class DefaultController extends Controller
 {
@@ -38,6 +39,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/contact/", name="contact")
+     * @Method({"GET", "POST"})
      */
     public function contactAction(Request $request)
     {
@@ -45,11 +47,12 @@ class DefaultController extends Controller
         $form = $this->createForm(EnquiryType::class, $enquiry);
 
         if ($form->handleRequest($request)->isValid()) {
-                // Perform some action, such as sending an email
-
-                // Redirect - This is important to prevent users re-posting
-                // the form if they refresh the page
-                return $this->redirect($this->generateUrl('BlogBundle_contact'));
+            // Perform some action, such as sending an email
+            $this->getDoctrine()->getManager()->persist($enquiry);
+            $this->getDoctrine()->getManager()->flush();
+            // Redirect - This is important to prevent users re-posting
+            // the form if they refresh the page
+            return $this->redirect($this->generateUrl('BlogBundle_contact'));
         }
 
         return $this->render('BlogBundle:Contact:contact.html.twig', array(
