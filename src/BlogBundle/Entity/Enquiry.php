@@ -2,6 +2,7 @@
 
 namespace BlogBundle\Entity;
 
+
 class Enquiry
 {
     protected $name;
@@ -51,4 +52,5 @@ class Enquiry
     {
         $this->body = $body;
     }
+
 }
