@@ -1,10 +1,13 @@
 {% extends 'BlogBundle:Default:default.html.twig' %}
 
 {% block sidebar %}
-    <h4>ARTICLES RECENTS</h4>
+    <h2>ARTICLE DE LA SEMAINE</h2>
     <br>
     <br>
-    <h4>ABONNEZ-VOUS !</h4>
+    {{ render(controller('BlogBundle:Default:weeklyPost')) }}
+    <br>
+    <br>
+    <h2>ABONNEZ-VOUS !</h2>
     <br>
     <h5>Retrouvez notre Newsletter</h5>
     <br>

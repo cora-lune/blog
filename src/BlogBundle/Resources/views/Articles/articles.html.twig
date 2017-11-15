@@ -1,20 +1,27 @@
 {% extends 'BlogBundle:Default:layout.html.twig' %}
 
-{% block title %}ARTICLES{% endblock%}
+{% block title %}Articles{% endblock %}
+{% block blog_title %}Toto{% endblock %}
 
 {% block body %}
-    <header>
-        <h1>ARTICLES</h1>
-    </header>
-    <article>
-        <p>Donec imperdiet ante sed diam consequat et dictum erat faucibus. Aliquam sit
-            amet vehicula leo. Morbi urna dui, tempor ac posuere et, rutrum at dui.
-            Curabitur neque quam, ultricies ut imperdiet id, ornare varius arcu. Ut congue
-            urna sit amet tellus malesuada nec elementum risus molestie. Donec gravida
-            tellus sed tortor adipiscing fringilla. Donec nulla mauris, mollis egestas
-            condimentum laoreet, lacinia vel lorem. Morbi vitae justo sit amet felis
-            vehicula commodo a placerat lacus. Mauris at est elit, nec vehicula urna. Duis a
-            lacus nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-            posuere cubilia Curae.</p>
-    </article>
+    {% for post in posts %}
+        <article class="post">
+            <header>
+                <h2><a href="{{ path('article_slug', { 'slug': post.slug }) }}">{{ post.title }}</a></h2>
+            </header>
+
+            <div class="snippet">
+                <p>{{ post.article|striptags|truncate(250) }}</p>
+                <p class="continue"><a href="{{ path('article_slug', { 'slug': post.slug }) }}">Continue reading...</a></p>
+            </div>
+
+            <footer class="meta">
+                <p>Comments: -</p>
+                <p>Posted by <span class="highlight">{{post.author}}</span></p>
+            </footer>
+            <br>
+        </article>
+    {% else %}
+        <p>Il n'y a pas d'article à afficher</p>
+    {% endfor %}
 {% endblock %}

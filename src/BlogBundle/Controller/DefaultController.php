@@ -2,6 +2,8 @@
 
 namespace BlogBundle\Controller;
 
+use BlogBundle\BlogBundle;
+use BlogBundle\Entity\Post;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -34,7 +36,12 @@ class DefaultController extends Controller
      */
     public function articlesAction()
     {
-        return $this->render('BlogBundle:Articles:articles.html.twig');
+        $posts = $this->getDoctrine()->getManager()->getRepository('BlogBundle:Post')->findBy(
+            [],
+            ['id' => 'DESC']
+        );
+
+        return $this->render('BlogBundle:Articles:articles.html.twig', ['posts' => $posts]);
     }
 
     /**
@@ -60,4 +67,34 @@ class DefaultController extends Controller
         ));
     }
 
+    /**
+     * @Route("/weekly-post", name="weekly_post")
+     */
+    public function weeklyPostAction()
+    {
+        $weeklyPost = $this->getDoctrine()->getRepository(Post::class)->findWeeklyPost();
+
+        return $this->render('BlogBundle:Articles:weekly_post.html.twig', array(
+            'weeklyPost' => $weeklyPost
+        ));
+    }
+
+    /**
+     * @Route("/{slug}", name="article_slug")
+     * @Method({"GET", "POST"})
+     */
+    public function showAction($slug)
+    {
+        $post = $this->getDoctrine()->getManager()->getRepository('BlogBundle:Post')->findOneBy([
+            'slug' => $slug
+        ]);
+
+        if (!$post) {
+            throw $this->createNotFoundException('Unable to find Blog post.');
+        }
+
+        return $this->render('BlogBundle:Articles:show.html.twig', array(
+            'post' => $post,
+        ));
+    }
 }

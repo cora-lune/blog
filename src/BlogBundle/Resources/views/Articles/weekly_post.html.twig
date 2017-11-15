@@ -1,0 +1,20 @@
+{% if weeklyPost %}
+    <article class="post">
+        <header>
+            <h2><a href="{{ path('article_slug', { 'slug': weeklyPost.slug }) }}">{{ weeklyPost.title }}</a></h2>
+        </header>
+
+        <div class="snippet">
+            <p>{{ weeklyPost.article|truncate(50) }}</p>
+            <p class="continue"><a href="{{ path('article_slug', { 'slug': weeklyPost.slug }) }}">Continue reading...</a></p>
+        </div>
+
+        <footer class="meta">
+            <p>Comments: -</p>
+            <p>Posted by <span class="highlight">{{weeklyPost.author}}</span></p>
+        </footer>
+        <br>
+    </article>
+{% else %}
+    <p>Il n'y a pas d'article à afficher</p>
+{% endif %}
