@@ -85,7 +85,8 @@ class DefaultController extends Controller
      */
     public function showAction($slug)
     {
-        $post = $this->getDoctrine()->getManager()->getRepository('BlogBundle:Post')->findOneBy([
+        $manager = $this->getDoctrine()->getManager();
+        $post = $manager->getRepository('BlogBundle:Post')->findOneBy([
             'slug' => $slug
         ]);
 
@@ -93,8 +94,12 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Unable to find Blog post.');
         }
 
+        $comments = $manager->getRepository('BlogBundle:Comment')
+            ->getCommentsForPost($post->getId());
+
         return $this->render('BlogBundle:Articles:show.html.twig', array(
             'post' => $post,
+            'comments'  => $comments
         ));
     }
 }

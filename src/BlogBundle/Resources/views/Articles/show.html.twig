@@ -15,5 +15,21 @@
         <div>
             <p>{{ post.article }}</p>
         </div>
+    <br>
+    <article class="comment">
+        <h3>Comments</h3>
+        <br>
+        {% for comment in post.comments if comment.approved %}
+            <header>
+                <p><span class="highlight">{{ comment.user }}</span> commented <time datetime="{{ comment.createdAt|date('comment') }}">{{ comment.createdAt|date('l, F j, Y') }}</time></p>
+            </header>
+            <section class="comments" id="comments">
+            <section class="previous-comments">
+                <p>{{ comment.comment }}</p>
+            </section>
+            </section>
     </article>
+        {% else %}
+            <p>Il n'y a pas de commentaire pour ce post. ce sera le premier...</p>
+        {% endfor %}
 {% endblock %}

@@ -1,6 +1,7 @@
 <?php
 namespace BlogBundle\DataFixtures\ORM;
 
+use BlogBundle\Entity\Comment;
 use BlogBundle\Entity\Enquiry;
 use BlogBundle\Entity\Post;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -8,6 +9,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class Fixtures extends Fixture
 {
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         // create 20 messages!
@@ -32,7 +36,20 @@ class Fixtures extends Fixture
             posuere cubilia Curae.'.$i);
             $post->setAuthor('dsyph3r'.$i);
             $manager->persist($post);
+        }
 
+        $manager->flush();
+
+        $posts = $manager->getRepository(Post::class)->findAll();
+
+        foreach ($posts as $post) {
+            for ($i = 0; $i < 20; $i++) {
+                $comment = new Comment();
+                $comment->setUser('user'.$i);
+                $comment->setPost($post);
+                $comment->setComment('Donec imperdiet ante sed diam consequat et dictum erat faucibus.'.$i);
+                $manager->persist($comment);
+            }
         }
 
         $manager->flush();
