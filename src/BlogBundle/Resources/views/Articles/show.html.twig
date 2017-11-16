@@ -17,7 +17,13 @@
         </div>
     <br>
     <article class="comment">
-        <h3>Comments</h3>
+    <br>
+        <a href="{{ path('comments', {'id':post.id}) }}"><button>Ajouter un commentaire</button></a>
+        <br>
+        <br>
+        <br>
+        <br>
+        <p><span class="highlight">Commentaires :</span></p>
         <br>
         {% for comment in post.comments if comment.approved %}
             <header>
@@ -28,8 +34,9 @@
                 <p>{{ comment.comment }}</p>
             </section>
             </section>
-    </article>
+    </div>
         {% else %}
             <p>Il n'y a pas de commentaire pour ce post. ce sera le premier...</p>
         {% endfor %}
 {% endblock %}
+

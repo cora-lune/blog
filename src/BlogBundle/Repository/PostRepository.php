@@ -20,4 +20,5 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
+
 }

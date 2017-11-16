@@ -9,6 +9,7 @@
     <article>
         <p>Gardons contact ! Envoyez-moi un petit message en remplissant ce formulaire. </p>
     </article>
+
     {{ form_start(form, {'attr': {'class': 'blogger'}}) }}
         {{ form_errors(form) }}
 
@@ -18,5 +19,5 @@
         {{ form_row(form.body) }}
         {{ form_row(form.submit) }}
 {{ form_end(form) }}
-    </form>
+
 {% endblock %}

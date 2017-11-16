@@ -3,7 +3,9 @@
 namespace BlogBundle\Controller;
 
 use BlogBundle\BlogBundle;
+use BlogBundle\Entity\Comment;
 use BlogBundle\Entity\Post;
+use BlogBundle\Form\CommentType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -59,7 +61,7 @@ class DefaultController extends Controller
             $this->getDoctrine()->getManager()->flush();
             // Redirect - This is important to prevent users re-posting
             // the form if they refresh the page
-            return $this->redirect($this->generateUrl('BlogBundle_contact'));
+            return $this->redirect($this->generateUrl('BlogBundle:Contact:contact.html.twig'));
         }
 
         return $this->render('BlogBundle:Contact:contact.html.twig', array(
@@ -76,6 +78,30 @@ class DefaultController extends Controller
 
         return $this->render('BlogBundle:Articles:weekly_post.html.twig', array(
             'weeklyPost' => $weeklyPost
+        ));
+    }
+    /**
+     * @Route("/comments", name="comments")
+     * @Method({"GET", "POST"})
+     */
+    public function commentsAction(Request $request)
+    {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+
+        if ($form->handleRequest($request)->isValid()) {
+            // Perform some action, such as sending an email
+            $this->getDoctrine()->getManager()->persist($comment);
+            $this->getDoctrine()->getManager()->flush();
+            // Redirect - This is important to prevent users re-posting
+            // the form if they refresh the page
+            return $this->render('BlogBundle:Comment:form.html.twig', array(
+                'form' => $form->createView()
+            ));
+        }
+
+        return $this->render('BlogBundle:Comment:form.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 
@@ -95,11 +121,14 @@ class DefaultController extends Controller
         }
 
         $comments = $manager->getRepository('BlogBundle:Comment')
-            ->getCommentsForPost($post->getId());
+            ->getCommentsForPost($post->getSlug());
 
         return $this->render('BlogBundle:Articles:show.html.twig', array(
             'post' => $post,
             'comments'  => $comments
         ));
     }
+
+
+
 }

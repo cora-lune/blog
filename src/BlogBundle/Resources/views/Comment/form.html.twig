@@ -1,0 +1,26 @@
+{% extends 'BlogBundle:Default:layout.html.twig' %}
+
+{% block title %}CONTACT{% endblock%}
+
+{% block body %}
+<h1>Ajouter un commentaire :</h1>
+
+        {{ form_start(form, {'attr': {'class': 'blogger'}}) }}
+        {{ form_errors(form) }}
+    <br>
+        {{ form_row(form.user) }}
+    <br>
+        {{ form_row(form.comment) }}
+    <br>
+        {{ form_row(form.approved) }}
+    <br>
+        {{ form_row(form.createdAt) }}
+    <br>
+        {{ form_row(form.updatedAt) }}
+    <br>
+        {{ form_row(form.post) }}
+    <br>
+    <button type="submit">Ajouter !</button>
+{{ form_end(form) }}
+
+{% endblock %}

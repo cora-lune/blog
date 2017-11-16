@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 /**
  * Comment
  *
@@ -61,6 +64,16 @@ class Comment
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('user', new NotBlank(array(
+            'message' => 'You must enter your name'
+        )));
+        $metadata->addPropertyConstraint('comment', new NotBlank(array(
+            'message' => 'You must enter a comment'
+        )));
+    }
 
     /**
      * Get id
